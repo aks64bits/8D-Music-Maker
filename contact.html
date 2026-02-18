@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact – Abhi 8D Music Maker</title>
+    <meta name="description" content="Get in touch with the Abhi 8D Music Maker team. WhatsApp or Email us anytime." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Outfit:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --purple: #a855f7;
+            --pink: #ec4899;
+            --green: #22c55e;
+            --bg-dark: #0f172a;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --glow: rgba(99, 102, 241, 0.4);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* ── NAVBAR ── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 40px;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .nav-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-back {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .nav-back:hover {
+            color: var(--primary);
+        }
+
+        /* ── CANVAS BACKGROUND ── */
+        #bg-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* ── MAIN WRAPPER ── */
+        .page {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 24px 80px;
+        }
+
+        /* ── FLOATING NOTES ── */
+        .note {
+            position: fixed;
+            font-size: 24px;
+            opacity: 0;
+            animation: floatNote linear infinite;
+            pointer-events: none;
+            z-index: 0;
+            user-select: none;
+        }
+
+        @keyframes floatNote {
+            0% {
+                opacity: 0;
+                transform: translateY(0) rotate(0deg);
+            }
+
+            10% {
+                opacity: 0.6;
+            }
+
+            90% {
+                opacity: 0.3;
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-100vh) rotate(360deg);
+            }
+        }
+
+        /* ── HERO TEXT ── */
+        .contact-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(99, 102, 241, 0.15);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 50px;
+            padding: 8px 20px;
+            font-size: 13px;
+            color: var(--primary);
+            margin-bottom: 24px;
+            animation: fadeInDown 0.8s ease both;
+        }
+
+        .contact-tag .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--primary);
+            animation: pulseDot 2s ease-in-out infinite;
+        }
+
+        @keyframes pulseDot {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.4;
+                transform: scale(0.7);
+            }
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(32px, 6vw, 64px);
+            font-weight: 900;
+            text-align: center;
+            line-height: 1.15;
+            margin-bottom: 16px;
+            animation: fadeInDown 0.8s ease 0.15s both;
+        }
+
+        h1 span {
+            background: linear-gradient(135deg, var(--primary), var(--purple), var(--pink));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 18px;
+            text-align: center;
+            max-width: 500px;
+            line-height: 1.7;
+            margin-bottom: 64px;
+            animation: fadeInDown 0.8s ease 0.3s both;
+        }
+
+        /* ── CONTACT CARDS ── */
+        .cards {
+            display: flex;
+            gap: 28px;
+            flex-wrap: wrap;
+            justify-content: center;
+            animation: fadeInDown 0.8s ease 0.45s both;
+        }
+
+        .contact-card {
+            position: relative;
+            overflow: hidden;
+            width: 320px;
+            border-radius: 28px;
+            padding: 48px 36px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(30, 27, 75, 0.5);
+            backdrop-filter: blur(20px);
+            transition: transform 0.35s cubic-bezier(.34, 1.56, .64, 1), box-shadow 0.35s;
+            cursor: pointer;
+        }
+
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 28px;
+            opacity: 0;
+            transition: opacity 0.35s;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-12px) scale(1.03);
+        }
+
+        /* WhatsApp card */
+        .card-wa::before {
+            background: radial-gradient(circle at 50% 0%, rgba(34, 197, 94, 0.25), transparent 70%);
+        }
+
+        .card-wa:hover {
+            box-shadow: 0 30px 80px rgba(34, 197, 94, 0.3);
+            border-color: rgba(34, 197, 94, 0.4);
+        }
+
+        .card-wa::before {
+            opacity: 1;
+        }
+
+        /* Email card */
+        .card-email::before {
+            background: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.25), transparent 70%);
+        }
+
+        .card-email:hover {
+            box-shadow: 0 30px 80px rgba(99, 102, 241, 0.3);
+            border-color: rgba(99, 102, 241, 0.4);
+        }
+
+        .card-email::before {
+            opacity: 1;
+        }
+
+        .card-icon-wrap {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 28px;
+            position: relative;
+            animation: iconPulse 2.5s ease-in-out infinite alternate;
+        }
+
+        .card-wa .card-icon-wrap {
+            background: radial-gradient(circle, rgba(34, 197, 94, 0.3), rgba(34, 197, 94, 0.05));
+            box-shadow: 0 0 30px rgba(34, 197, 94, 0.4), 0 0 60px rgba(34, 197, 94, 0.15);
+        }
+
+        .card-email .card-icon-wrap {
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.3), rgba(99, 102, 241, 0.05));
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.4), 0 0 60px rgba(99, 102, 241, 0.15);
+        }
+
+        @keyframes iconPulse {
+            from {
+                box-shadow: 0 0 20px rgba(34, 197, 94, 0.3), 0 0 40px rgba(34, 197, 94, 0.1);
+            }
+
+            to {
+                box-shadow: 0 0 40px rgba(34, 197, 94, 0.6), 0 0 80px rgba(34, 197, 94, 0.25);
+            }
+        }
+
+        .card-email .card-icon-wrap {
+            animation-name: iconPulseBlue;
+        }
+
+        @keyframes iconPulseBlue {
+            from {
+                box-shadow: 0 0 20px rgba(99, 102, 241, 0.3), 0 0 40px rgba(99, 102, 241, 0.1);
+            }
+
+            to {
+                box-shadow: 0 0 40px rgba(99, 102, 241, 0.6), 0 0 80px rgba(99, 102, 241, 0.25);
+            }
+        }
+
+        .card-icon {
+            font-size: 44px;
+            line-height: 1;
+        }
+
+        .card-label {
+            font-size: 12px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .card-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .card-wa .card-title {
+            color: #4ade80;
+        }
+
+        .card-email .card-title {
+            color: #818cf8;
+        }
+
+        .card-value {
+            font-size: 15px;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+            word-break: break-all;
+        }
+
+        .card-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            color: #fff;
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-wa .card-btn {
+            background: linear-gradient(135deg, #16a34a, #22c55e);
+            box-shadow: 0 0 30px rgba(34, 197, 94, 0.4);
+        }
+
+        .card-wa .card-btn:hover {
+            transform: scale(1.06);
+            box-shadow: 0 0 50px rgba(34, 197, 94, 0.6);
+        }
+
+        .card-email .card-btn {
+            background: linear-gradient(135deg, var(--primary), var(--purple));
+            box-shadow: 0 0 30px var(--glow);
+        }
+
+        .card-email .card-btn:hover {
+            transform: scale(1.06);
+            box-shadow: 0 0 50px rgba(99, 102, 241, 0.6);
+        }
+
+        /* ── EQUALIZER BARS (decorative) ── */
+        .eq-bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 5px;
+            height: 40px;
+            margin-top: 20px;
+        }
+
+        .eq-bar {
+            width: 5px;
+            border-radius: 3px;
+            animation: eqAnim 0.8s ease-in-out infinite alternate;
+        }
+
+        .card-wa .eq-bar {
+            background: #22c55e;
+        }
+
+        .card-email .eq-bar {
+            background: var(--primary);
+        }
+
+        .eq-bar:nth-child(1) {
+            animation-duration: 0.6s;
+            animation-delay: 0.0s;
+        }
+
+        .eq-bar:nth-child(2) {
+            animation-duration: 0.9s;
+            animation-delay: 0.1s;
+        }
+
+        .eq-bar:nth-child(3) {
+            animation-duration: 0.5s;
+            animation-delay: 0.2s;
+        }
+
+        .eq-bar:nth-child(4) {
+            animation-duration: 0.7s;
+            animation-delay: 0.05s;
+        }
+
+        .eq-bar:nth-child(5) {
+            animation-duration: 1.0s;
+            animation-delay: 0.15s;
+        }
+
+        .eq-bar:nth-child(6) {
+            animation-duration: 0.65s;
+            animation-delay: 0.25s;
+        }
+
+        @keyframes eqAnim {
+            from {
+                height: 6px;
+                opacity: 0.5;
+            }
+
+            to {
+                height: 36px;
+                opacity: 1;
+            }
+        }
+
+        /* ── RESPONSE TIME ── */
+        .response-row {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 56px;
+            animation: fadeInDown 0.8s ease 0.6s both;
+        }
+
+        .response-chip {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(30, 27, 75, 0.6);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 50px;
+            padding: 12px 24px;
+            font-size: 14px;
+            color: var(--text-muted);
+            backdrop-filter: blur(10px);
+        }
+
+        .response-chip .chip-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #22c55e;
+            box-shadow: 0 0 8px #22c55e;
+            animation: pulseDot 1.5s ease-in-out infinite;
+        }
+
+        /* ── FOOTER ── */
+        .contact-footer {
+            margin-top: 80px;
+            text-align: center;
+            color: rgba(148, 163, 184, 0.4);
+            font-size: 13px;
+            animation: fadeInDown 0.8s ease 0.75s both;
+        }
+
+        .contact-footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .contact-footer a:hover {
+            text-decoration: underline;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 700px) {
+            nav {
+                padding: 14px 20px;
+            }
+
+            .contact-card {
+                width: 100%;
+                max-width: 360px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- CANVAS BACKGROUND (audio visualizer waves) -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- FLOATING MUSIC NOTES -->
+    <div class="note" style="left:5%;  animation-duration:9s;  animation-delay:0s;">🎵</div>
+    <div class="note" style="left:15%; animation-duration:12s; animation-delay:2s;">🎶</div>
+    <div class="note" style="left:28%; animation-duration:8s;  animation-delay:4s;">🎸</div>
+    <div class="note" style="left:42%; animation-duration:14s; animation-delay:1s;">🎹</div>
+    <div class="note" style="left:58%; animation-duration:10s; animation-delay:3s;">🎵</div>
+    <div class="note" style="left:70%; animation-duration:11s; animation-delay:5s;">🎶</div>
+    <div class="note" style="left:82%; animation-duration:7s;  animation-delay:2s;">🎷</div>
+    <div class="note" style="left:92%; animation-duration:13s; animation-delay:0.5s;">🎵</div>
+    <div class="note" style="left:50%; animation-duration:9s;  animation-delay:6s; font-size:36px;">🎧</div>
+    <div class="note" style="left:35%; animation-duration:15s; animation-delay:7s; font-size:30px;">🎼</div>
+
+    <!-- NAVBAR -->
+    <nav>
+        <a href="index.html" class="nav-logo">⬡ ABHI 8D</a>
+        <a href="index.html" class="nav-back">← Back to Home</a>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <div class="page">
+
+        <div class="contact-tag">
+            <span class="dot"></span>
+            We're Online · Typically reply within 1 hour
+        </div>
+
+        <h1>Let's <span>Connect</span></h1>
+        <p class="subtitle">
+            Have a question, feedback, or just want to say hi?<br />
+            Reach out — we'd love to hear from you! 🎧
+        </p>
+
+        <div class="cards">
+
+            <!-- WhatsApp Card -->
+            <a href="https://wa.me/918051648462?text=Hi%20Akash!%20I%20found%20you%20through%20Abhi%208D%20Music%20Maker%20app%20🎧"
+                class="contact-card card-wa" target="_blank" rel="noopener">
+                <div class="card-icon-wrap">
+                    <span class="card-icon">💬</span>
+                </div>
+                <div class="card-label">Chat with us</div>
+                <div class="card-title">WhatsApp</div>
+                <div class="card-value">+91 80516 48462</div>
+                <a href="https://wa.me/918051648462?text=Hi%20Akash!%20I%20found%20you%20through%20Abhi%208D%20Music%20Maker%20app%20🎧"
+                    class="card-btn" target="_blank" rel="noopener">
+                    💬 Open WhatsApp
+                </a>
+                <div class="eq-bars">
+                    <div class="eq-bar"></div>
+                    <div class="eq-bar"></div>
+                    <div class="eq-bar"></div>
+                    <div class="eq-bar"></div>
+                    <div class="eq-bar"></div>
+                    <div class="eq-bar"></div>
+                </div>
+            </a>
+
+            <!-- Email Card -->
+            <a href="mailto:aks64bits@gmail.com?subject=Abhi%208D%20Music%20Maker%20Feedback"
+                class="contact-card card-email">
+                <div class="card-icon-wrap">
+                    <span class="card-icon">✉️</span>
+                </div>
+                <div class="card-label">Send us a message</div>
+                <div class="card-title">Email</div>
+                <div class="card-value">aks64bits@gmail.com</div>
+                <a href="mailto:aks64bits@gmail.com?subject=Abhi%208D%20Music%20Maker%20Feedback" class="card-btn">
+                    ✉️ Send Email
+                </a>
+                <div class="eq-bars">
+                    <div class="eq-bar"></div>
+                    <div class="eq-bar"></div>
+                    <div class="eq-bar"></div>
+                    <div class="eq-bar"></div>
+                    <div class="eq-bar"></div>
+                    <div class="eq-bar"></div>
+                </div>
+            </a>
+
+        </div>
+
+        <!-- Response chips -->
+        <div class="response-row">
+            <div class="response-chip">
+                <span class="chip-dot"></span>
+                WhatsApp: Usually within 1 hour
+            </div>
+            <div class="response-chip">
+                <span class="chip-dot" style="background:#6366f1; box-shadow:0 0 8px #6366f1;"></span>
+                Email: Within 24 hours
+            </div>
+        </div>
+
+        <div class="contact-footer">
+            © 2026 <strong>Skynetinfotech Ltd.</strong> · Developed by Akash Singh ·
+            <a href="index.html">Back to App</a>
+        </div>
+
+    </div>
+
+    <script>
+        // ── CANVAS AUDIO WAVE BACKGROUND ──
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resize();
+        window.addEventListener('resize', resize);
+
+        const waves = [
+            { color: 'rgba(99,102,241,0.08)', speed: 0.012, amp: 60, freq: 0.008, offset: 0 },
+            { color: 'rgba(168,85,247,0.06)', speed: 0.009, amp: 80, freq: 0.006, offset: 2 },
+            { color: 'rgba(236,72,153,0.05)', speed: 0.015, amp: 40, freq: 0.012, offset: 4 },
+            { color: 'rgba(99,102,241,0.04)', speed: 0.007, amp: 100, freq: 0.005, offset: 1 },
+        ];
+
+        let t = 0;
+        function drawWaves() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            waves.forEach(w => {
+                ctx.beginPath();
+                ctx.moveTo(0, canvas.height / 2);
+                for (let x = 0; x <= canvas.width; x += 4) {
+                    const y = canvas.height / 2
+                        + Math.sin(x * w.freq + t * w.speed * 100 + w.offset) * w.amp
+                        + Math.sin(x * w.freq * 2 + t * w.speed * 60) * (w.amp * 0.4);
+                    ctx.lineTo(x, y);
+                }
+                ctx.lineTo(canvas.width, canvas.height);
+                ctx.lineTo(0, canvas.height);
+                ctx.closePath();
+                ctx.fillStyle = w.color;
+                ctx.fill();
+            });
+
+            // Spectrum bars at bottom
+            const barCount = Math.floor(canvas.width / 14);
+            for (let i = 0; i < barCount; i++) {
+                const x = i * 14;
+                const h = (Math.sin(i * 0.3 + t * 0.05) * 0.5 + 0.5)
+                    * (Math.sin(i * 0.7 + t * 0.03) * 0.5 + 0.5) * 80 + 4;
+                const alpha = 0.08 + (h / 80) * 0.12;
+                ctx.fillStyle = `rgba(99,102,241,${alpha})`;
+                ctx.beginPath();
+                ctx.roundRect(x + 2, canvas.height - h, 10, h, 3);
+                ctx.fill();
+            }
+
+            t++;
+            requestAnimationFrame(drawWaves);
+        }
+        drawWaves();
+
+        // ── CARD HOVER RIPPLE ──
+        document.querySelectorAll('.contact-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width * 100).toFixed(1);
+                const y = ((e.clientY - rect.top) / rect.height * 100).toFixed(1);
+                card.style.setProperty('--mx', x + '%');
+                card.style.setProperty('--my', y + '%');
+            });
+        });
+    </script>
+</body>
+
+</html>

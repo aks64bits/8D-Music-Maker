@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Abhi 8D Music Maker – Neural 8D Audio Engine</title>
+    <meta name="description"
+        content="Transform any song into immersive 8D audio with Abhi 8D Music Maker. Free Android app by Skynetinfotech Ltd." />
+    <meta name="keywords" content="8D music, 8D audio, music converter, Android app, spatial audio, 3D sound" />
+    <meta property="og:title" content="Abhi 8D Music Maker" />
+    <meta property="og:description" content="Transform any song into immersive 8D audio. Free for Android." />
+    <meta property="og:type" content="website" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Outfit:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --purple: #a855f7;
+            --pink: #ec4899;
+            --bg-dark: #0f172a;
+            --bg-card: #1e1b4b;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --glow: rgba(99, 102, 241, 0.4);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* ── NAVBAR ── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 40px;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .nav-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text);
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--primary), var(--purple));
+            color: #fff;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 0 20px var(--glow);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .nav-cta:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px var(--glow);
+        }
+
+        /* ── HERO ── */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 24px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated background orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.25;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: var(--primary);
+            top: -100px;
+            left: -100px;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: var(--purple);
+            bottom: -100px;
+            right: -100px;
+            animation-delay: 3s;
+        }
+
+        .orb-3 {
+            width: 300px;
+            height: 300px;
+            background: var(--pink);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: 1.5s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) scale(1);
+            }
+
+            50% {
+                transform: translateY(-30px) scale(1.05);
+            }
+        }
+
+        /* Animated grid lines */
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(99, 102, 241, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(99, 102, 241, 0.05) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(99, 102, 241, 0.15);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 50px;
+            padding: 8px 20px;
+            font-size: 13px;
+            color: var(--primary);
+            margin-bottom: 32px;
+            animation: fadeInDown 0.8s ease both;
+        }
+
+        .hero-badge .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--primary);
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.5;
+                transform: scale(0.8);
+            }
+        }
+
+        .hero h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(36px, 7vw, 80px);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            animation: fadeInDown 0.8s ease 0.2s both;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--primary), var(--purple), var(--pink));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: clamp(16px, 2.5vw, 22px);
+            color: var(--text-muted);
+            max-width: 600px;
+            line-height: 1.7;
+            margin-bottom: 48px;
+            animation: fadeInDown 0.8s ease 0.4s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+            animation: fadeInDown 0.8s ease 0.6s both;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--purple));
+            color: #fff;
+            text-decoration: none;
+            padding: 16px 36px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 700;
+            box-shadow: 0 0 40px var(--glow);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 60px var(--glow);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: transparent;
+            color: var(--text);
+            text-decoration: none;
+            padding: 16px 36px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: border-color 0.2s, background 0.2s;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        /* ── LOGO ANIMATION ── */
+        .hero-logo {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 48px;
+            animation: fadeIn 1s ease 0.1s both;
+        }
+
+        .logo-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid transparent;
+        }
+
+        .ring-1 {
+            inset: 0;
+            border-color: rgba(99, 102, 241, 0.6);
+            border-style: dashed;
+            animation: spin 8s linear infinite;
+        }
+
+        .ring-2 {
+            inset: 20px;
+            border-color: rgba(168, 85, 247, 0.3);
+            animation: spin 8s linear infinite reverse;
+        }
+
+        .logo-core {
+            position: absolute;
+            inset: 30px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.3), transparent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse-glow 1.5s ease-in-out infinite alternate;
+        }
+
+        .logo-eq {
+            font-size: 72px;
+            line-height: 1;
+            animation: bounce-scale 2s ease-in-out infinite alternate;
+        }
+
+        .logo-chip {
+            position: absolute;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 22px;
+            animation: spin 6s linear infinite;
+        }
+
+        .logo-glow {
+            position: absolute;
+            inset: -20px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.2), transparent 70%);
+            animation: pulse-glow 1.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes bounce-scale {
+            from {
+                transform: scale(0.9);
+            }
+
+            to {
+                transform: scale(1.1);
+            }
+        }
+
+        @keyframes pulse-glow {
+            from {
+                opacity: 0.4;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* ── STATS BAR ── */
+        .stats {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0;
+            background: rgba(30, 27, 75, 0.6);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 20px;
+            padding: 32px 40px;
+            margin: 0 auto 80px;
+            max-width: 800px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-item {
+            flex: 1;
+            min-width: 140px;
+            text-align: center;
+            padding: 16px;
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .stat-item:last-child {
+            border-right: none;
+        }
+
+        .stat-num {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* ── SECTION COMMON ── */
+        section {
+            padding: 100px 24px;
+        }
+
+        .section-tag {
+            display: inline-block;
+            background: rgba(99, 102, 241, 0.15);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 50px;
+            padding: 6px 16px;
+            font-size: 12px;
+            color: var(--primary);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(28px, 4vw, 48px);
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .section-sub {
+            color: var(--text-muted);
+            font-size: 18px;
+            max-width: 560px;
+            line-height: 1.7;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mx-auto {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ── FEATURES ── */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            max-width: 1100px;
+            margin: 60px auto 0;
+        }
+
+        .feature-card {
+            background: rgba(30, 27, 75, 0.5);
+            border: 1px solid rgba(99, 102, 241, 0.15);
+            border-radius: 20px;
+            padding: 32px;
+            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.15);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            font-size: 40px;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .feature-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 16px;
+            margin-bottom: 12px;
+            color: var(--text);
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        /* ── HOW IT WORKS ── */
+        .how-bg {
+            background: linear-gradient(180deg, var(--bg-dark), rgba(30, 27, 75, 0.3), var(--bg-dark));
+        }
+
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            max-width: 700px;
+            margin: 60px auto 0;
+            position: relative;
+        }
+
+        .steps::before {
+            content: '';
+            position: absolute;
+            left: 28px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--primary), var(--purple), transparent);
+        }
+
+        .step {
+            display: flex;
+            gap: 24px;
+            align-items: flex-start;
+            padding: 0 0 48px 0;
+        }
+
+        .step-num {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, var(--primary), var(--purple));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            box-shadow: 0 0 20px var(--glow);
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-content h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            padding-top: 12px;
+        }
+
+        .step-content p {
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        /* ── TECH STACK ── */
+        .tech-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            max-width: 800px;
+            margin: 48px auto 0;
+        }
+
+        .tech-pill {
+            background: rgba(30, 27, 75, 0.7);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 50px;
+            padding: 10px 20px;
+            font-size: 14px;
+            color: var(--text-muted);
+            transition: border-color 0.3s, color 0.3s;
+        }
+
+        .tech-pill:hover {
+            border-color: var(--primary);
+            color: var(--text);
+        }
+
+        /* ── DOWNLOAD ── */
+        .download-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.1));
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 32px;
+            padding: 80px 40px;
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, rgba(99, 102, 241, 0.1), transparent 70%);
+        }
+
+        .version-badge {
+            display: inline-block;
+            background: rgba(99, 102, 241, 0.2);
+            border: 1px solid rgba(99, 102, 241, 0.4);
+            border-radius: 50px;
+            padding: 6px 20px;
+            font-size: 13px;
+            color: var(--primary);
+            margin-bottom: 24px;
+        }
+
+        .download-section h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(28px, 4vw, 48px);
+            margin-bottom: 16px;
+        }
+
+        .download-section p {
+            color: var(--text-muted);
+            font-size: 18px;
+            margin-bottom: 40px;
+            line-height: 1.7;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--purple));
+            color: #fff;
+            text-decoration: none;
+            padding: 20px 48px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 700;
+            box-shadow: 0 0 60px var(--glow);
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+            z-index: 1;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 0 80px var(--glow);
+        }
+
+        .download-btn svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .download-note {
+            margin-top: 20px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 48px 24px;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+        }
+
+        .footer-sub {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 32px;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .footer-copy {
+            color: rgba(148, 163, 184, 0.5);
+            font-size: 13px;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            nav {
+                padding: 14px 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .stats {
+                padding: 24px 16px;
+            }
+
+            .stat-item {
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            }
+
+            .stat-item:last-child {
+                border-bottom: none;
+            }
+
+            .download-section {
+                padding: 48px 24px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* ── SCROLL REVEAL ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── CANVAS BG ── */
+        #bg-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        /* ── FLOATING NOTES ── */
+        .note {
+            position: fixed;
+            font-size: 22px;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 0;
+            user-select: none;
+            animation: floatNote linear infinite;
+        }
+
+        @keyframes floatNote {
+            0% {
+                opacity: 0;
+                transform: translateY(0) rotate(0deg);
+            }
+
+            10% {
+                opacity: 0.5;
+            }
+
+            90% {
+                opacity: 0.2;
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-100vh) rotate(360deg);
+            }
+        }
+
+        /* ── BEATS SECTION ── */
+        .beats-section {
+            padding: 80px 24px;
+            text-align: center;
+        }
+
+        .beats-container {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 6px;
+            height: 120px;
+            max-width: 700px;
+            margin: 40px auto 0;
+        }
+
+        .beat-bar {
+            flex: 1;
+            max-width: 18px;
+            border-radius: 4px 4px 0 0;
+            background: linear-gradient(180deg, var(--purple), var(--primary));
+            animation: beatAnim ease-in-out infinite alternate;
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.4);
+        }
+
+        @keyframes beatAnim {
+            from {
+                height: 8px;
+                opacity: 0.4;
+            }
+
+            to {
+                height: 100%;
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- CANVAS WAVE BACKGROUND -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- FLOATING MUSIC NOTES -->
+    <div class="note" style="left:3%;  bottom:-5%; animation-duration:11s; animation-delay:0s;">🎵</div>
+    <div class="note" style="left:12%; bottom:-5%; animation-duration:14s; animation-delay:3s;">🎶</div>
+    <div class="note" style="left:25%; bottom:-5%; animation-duration:9s;  animation-delay:6s;">🎸</div>
+    <div class="note" style="left:40%; bottom:-5%; animation-duration:16s; animation-delay:1s;">🎹</div>
+    <div class="note" style="left:55%; bottom:-5%; animation-duration:12s; animation-delay:4s;">🎵</div>
+    <div class="note" style="left:68%; bottom:-5%; animation-duration:10s; animation-delay:7s;">🎶</div>
+    <div class="note" style="left:80%; bottom:-5%; animation-duration:13s; animation-delay:2s;">🎷</div>
+    <div class="note" style="left:92%; bottom:-5%; animation-duration:8s;  animation-delay:5s;">🎵</div>
+
+    <!-- NAVBAR -->
+    <nav>
+        <div class="nav-logo">⬡ ABHI 8D</div>
+        <ul class="nav-links">
+            <li><a href="#features">Features</a></li>
+            <li><a href="#how">How It Works</a></li>
+            <li><a href="#tech">Tech</a></li>
+            <li><a href="#download">Download</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <a href="#download" class="nav-cta">Get App ↓</a>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+
+        <!-- Animated Logo -->
+        <div class="hero-logo">
+            <div class="logo-glow"></div>
+            <div class="logo-ring ring-1"></div>
+            <div class="logo-ring ring-2"></div>
+            <div class="logo-core">
+                <span class="logo-eq">🎚️</span>
+            </div>
+            <div class="logo-chip">💾</div>
+        </div>
+
+        <div class="hero-badge">
+            <span class="dot"></span>
+            Version 1.1.2 · Free for Android
+        </div>
+
+        <h1>Transform Music Into<br /><span>8D Spatial Audio</span></h1>
+
+        <p>
+            Experience your favourite songs like never before. Abhi 8D Music Maker uses a Neural Audio Engine to convert
+            any track into immersive, head-spinning 8D audio — in seconds.
+        </p>
+
+        <div class="hero-buttons">
+            <a href="#download" class="btn-primary">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                        d="M17.523 15.341A4.5 4.5 0 0 0 12 11.5a4.5 4.5 0 0 0-5.523 3.841A3 3 0 0 0 9 21h6a3 3 0 0 0 2.523-5.659zM12 2a1 1 0 0 1 1 1v7.586l2.293-2.293a1 1 0 1 1 1.414 1.414l-4 4a1 1 0 0 1-1.414 0l-4-4a1 1 0 1 1 1.414-1.414L11 10.586V3a1 1 0 0 1 1-1z" />
+                </svg>
+                Download APK
+            </a>
+            <a href="#features" class="btn-secondary">
+                ✨ Explore Features
+            </a>
+        </div>
+    </section>
+
+    <!-- STATS -->
+    <div style="padding: 0 24px;">
+        <div class="stats reveal">
+            <div class="stat-item">
+                <div class="stat-num">8D</div>
+                <div class="stat-label">Spatial Audio Engine</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">5+</div>
+                <div class="stat-label">Ambient Soundscapes</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">15+</div>
+                <div class="stat-label">Theme Colors</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">Free</div>
+                <div class="stat-label">No Ads · No Limits</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FEATURES -->
+    <section id="features">
+        <div class="text-center">
+            <div class="section-tag">✦ Features</div>
+            <h2 class="section-title">Everything You Need</h2>
+            <p class="section-sub mx-auto">A full-featured audio studio in your pocket, built for music lovers.</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card reveal">
+                <div class="feature-icon">🎧</div>
+                <h3>8D & 3D Conversion</h3>
+                <p>Convert any MP3, WAV, AAC or M4A file into immersive 8D or 3D spatial audio using FFmpeg's advanced
+                    panning engine.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">🎚️</div>
+                <h3>Live 3-Band Equalizer</h3>
+                <p>Real-time Bass, Mid, and Treble sliders. Includes presets: Bass Boost, Vocal Boost, Treble Boost,
+                    Flat, and Dolby Atmos simulation.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">🌿</div>
+                <h3>Ambient Soundscapes</h3>
+                <p>Layer your music with Rain, Thunder, Birds, Forest, or Fireflies — all bundled offline. Adjustable
+                    volume with real-time feedback.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">🎨</div>
+                <h3>Full Theme Customization</h3>
+                <p>15+ vibrant accent colors. Neon glow animations on all interactive elements. Your app, your vibe.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">📚</div>
+                <h3>Smart Music Library</h3>
+                <p>All converted files in one place. Search, sort by date, see file size and metadata. Newly converted
+                    tracks glow with a neon highlight.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">🔁</div>
+                <h3>Background Playback</h3>
+                <p>Music keeps playing when the screen is off or you switch apps. Full media notification controls
+                    included.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">⚡</div>
+                <h3>Fast Conversion</h3>
+                <p>Powered by FFmpeg with multi-threaded processing. Converts most tracks in seconds with a real-time
+                    progress indicator.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">🌐</div>
+                <h3>100% Offline</h3>
+                <p>No internet required. No cloud uploads. Your music stays on your device — private and secure.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">🔮</div>
+                <h3>Coming Soon: Visualizer</h3>
+                <p>Winamp-style animated presets — plasma, starfield, spectrum bars — synced to your music. Real FFT
+                    audio-reactive in a future update.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section id="how" class="how-bg">
+        <div class="text-center">
+            <div class="section-tag">✦ How It Works</div>
+            <h2 class="section-title">Three Simple Steps</h2>
+            <p class="section-sub mx-auto">From any audio file to immersive 8D audio in under a minute.</p>
+        </div>
+
+        <div class="steps">
+            <div class="step reveal">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Pick Your Track</h3>
+                    <p>Tap the Studio tab and select any audio file from your device — MP3, WAV, AAC, or M4A. The file
+                        picker shows the filename and size instantly.</p>
+                </div>
+            </div>
+            <div class="step reveal">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Choose Your Effect</h3>
+                    <p>Select from 8D, 3D, or custom spatial settings. Adjust reverb, panning speed, and bass boost to
+                        your taste using the live equalizer.</p>
+                </div>
+            </div>
+            <div class="step reveal">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Convert & Enjoy</h3>
+                    <p>Hit Convert. Watch the real-time progress bar. When done, a success popup appears — tap "View in
+                        Library" to find your new track glowing in the library, ready to play.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TECH STACK -->
+    <section id="tech">
+        <div class="text-center">
+            <div class="section-tag">✦ Built With</div>
+            <h2 class="section-title">Powered by Modern Tech</h2>
+            <p class="section-sub mx-auto">Enterprise-grade technologies packed into a lightweight Android app.</p>
+        </div>
+        <div class="tech-pills reveal">
+            <span class="tech-pill">🐦 Flutter</span>
+            <span class="tech-pill">🎬 FFmpeg Kit</span>
+            <span class="tech-pill">🎵 just_audio</span>
+            <span class="tech-pill">🔷 Riverpod</span>
+            <span class="tech-pill">🔤 Google Fonts</span>
+            <span class="tech-pill">📁 File Picker</span>
+            <span class="tech-pill">🔔 Permission Handler</span>
+            <span class="tech-pill">📱 Device Info Plus</span>
+            <span class="tech-pill">✨ animate_do</span>
+            <span class="tech-pill">🗂️ Path Provider</span>
+        </div>
+    </section>
+
+    <!-- DOWNLOAD -->
+    <section id="download" style="padding: 80px 24px;">
+        <div class="download-section reveal">
+            <div class="version-badge">🚀 Latest Release · v1.1.2</div>
+            <h2>Ready to Hear the Difference?</h2>
+            <p>Download Abhi 8D Music Maker for free. No sign-up, no subscription, no ads. Just pure immersive audio.
+            </p>
+            <a href="https://github.com/aks64bits/8D-Music-Maker/releases/download/v1.1.2/8D-Music-Player-V1.1.2.apk"
+                class="download-btn" id="download-apk">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                        d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6H6zm7 1.5L18.5 8H13V3.5zM12 11a4 4 0 1 1 0 8 4 4 0 0 1 0-8zm0 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z" />
+                </svg>
+                Download APK Free
+            </a>
+            <div class="download-note">
+                Android 6.0+ required · ~10MB download · No account needed
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-logo">⬡ ABHI 8D MUSIC MAKER</div>
+        <div class="footer-sub">Neural 8D Audio Engine · Built with ❤️ by Skynetinfotech Ltd.</div>
+        <div class="footer-links">
+            <a href="#features">Features</a>
+            <a href="#how">How It Works</a>
+            <a href="#download">Download</a>
+            <a href="contact.html">📬 Contact Us</a>
+        </div>
+        <div class="footer-copy">
+            © 2026 Skynetinfotech Ltd. · Developed by Akash Singh · All rights reserved.
+        </div>
+    </footer>
+
+    <!-- MUSIC BEATS SECTION -->
+    <section class="beats-section">
+        <div class="section-tag">✦ Feel the Beat</div>
+        <h2 class="section-title">Your Music, Reimagined in 8D</h2>
+        <p class="section-sub mx-auto">Every frequency, every note — spatially placed around your head.</p>
+        <div class="beats-container" id="beats-container"></div>
+    </section>
+
+    <script>
+        // Scroll reveal
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(el => {
+                if (el.isIntersecting) {
+                    el.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Stagger feature cards
+        document.querySelectorAll('.feature-card').forEach((card, i) => {
+            card.style.transitionDelay = `${i * 0.08}s`;
+        });
+
+        // Counter animation for stats
+        function animateCounter(el, target, suffix = '') {
+            let current = 0;
+            const step = target / 40;
+            const timer = setInterval(() => {
+                current += step;
+                if (current >= target) {
+                    el.textContent = target + suffix;
+                    clearInterval(timer);
+                } else {
+                    el.textContent = Math.floor(current) + suffix;
+                }
+            }, 30);
+        }
+
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounter(document.querySelectorAll('.stat-num')[1], 5, '+');
+                    animateCounter(document.querySelectorAll('.stat-num')[2], 15, '+');
+                    statsObserver.disconnect();
+                }
+            });
+        }, { threshold: 0.5 });
+
+        const statsEl = document.querySelector('.stats');
+        if (statsEl) statsObserver.observe(statsEl);
+
+        // ── CANVAS WAVE BACKGROUND ──
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+        const waves = [
+            { color: 'rgba(99,102,241,0.06)', speed: 0.010, amp: 50, freq: 0.007, offset: 0 },
+            { color: 'rgba(168,85,247,0.04)', speed: 0.007, amp: 70, freq: 0.005, offset: 2 },
+            { color: 'rgba(236,72,153,0.03)', speed: 0.013, amp: 35, freq: 0.010, offset: 4 },
+        ];
+        let wt = 0;
+        function drawWaves() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            waves.forEach(w => {
+                ctx.beginPath();
+                ctx.moveTo(0, canvas.height * 0.7);
+                for (let x = 0; x <= canvas.width; x += 4) {
+                    const y = canvas.height * 0.7
+                        + Math.sin(x * w.freq + wt * w.speed * 80 + w.offset) * w.amp
+                        + Math.sin(x * w.freq * 1.7 + wt * w.speed * 50) * (w.amp * 0.3);
+                    ctx.lineTo(x, y);
+                }
+                ctx.lineTo(canvas.width, canvas.height);
+                ctx.lineTo(0, canvas.height);
+                ctx.closePath();
+                ctx.fillStyle = w.color;
+                ctx.fill();
+            });
+            wt++;
+            requestAnimationFrame(drawWaves);
+        }
+        drawWaves();
+
+        // ── BEAT BARS ──
+        const beatsContainer = document.getElementById('beats-container');
+        if (beatsContainer) {
+            const barCount = 40;
+            const colors = [
+                ['#6366f1', '#a855f7'], ['#a855f7', '#ec4899'],
+                ['#ec4899', '#6366f1'], ['#6366f1', '#22d3ee']
+            ];
+            for (let i = 0; i < barCount; i++) {
+                const bar = document.createElement('div');
+                bar.className = 'beat-bar';
+                const c = colors[i % colors.length];
+                bar.style.background = `linear-gradient(180deg, ${c[0]}, ${c[1]})`;
+                bar.style.boxShadow = `0 0 12px ${c[0]}66`;
+                const dur = (0.4 + Math.random() * 0.8).toFixed(2);
+                const delay = (Math.random() * 0.8).toFixed(2);
+                bar.style.animationDuration = dur + 's';
+                bar.style.animationDelay = delay + 's';
+                beatsContainer.appendChild(bar);
+            }
+        }
+    </script>
+</body>
+
+</html>
